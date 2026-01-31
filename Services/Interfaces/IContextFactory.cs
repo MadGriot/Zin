@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Zin.Services.Interfaces
 {
-    public interface IDbContextFactory<T> where T : DbContext
+    public interface IContextFactory<T> where T : DbContext
     {
-        T Create();
+        T CreateDbContext();
 
     }
 }

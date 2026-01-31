@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Zin.Services.Interfaces;
 
 namespace Zin.Services
 {
-    public class DbContextFactory<T>(DbContextOptions<T> options) : IDbContextFactory<T> where T : DbContext
+    public class ContextFactory<T>(DbContextOptions<T> options) : IContextFactory<T> where T : DbContext
     {
         private readonly DbContextOptions<T> options = options;
         public T CreateDbContext()
