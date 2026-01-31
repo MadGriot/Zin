@@ -10,6 +10,7 @@ namespace Zin.TutorialCode
         public static void CreateModel(string inputDataFileName, string outputModelFileName)
         {
             // Load data
+            var dataView = Context.Data.CreateDatabaseLoader();
 
             // Build training pipeline
 
