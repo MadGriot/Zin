@@ -2,20 +2,10 @@
 {
     public class BehaviorLeaf : BehaviorNode
     {
-        public delegate Status Tick();
-        public Tick? ProcessMethod;
+        public Func<Status>? Tick { get; set; }
 
-        public BehaviorLeaf() : base("BehaviorLeaf")
-        {
-        }
-
-        public BehaviorLeaf(string name, Tick processMethod) : base(name)
-        {
-            ProcessMethod = processMethod;
-        }
-        public override Status Process()
-        {   
-            return (ProcessMethod != null) ? ProcessMethod() : Status.Failure;
-        }
+        public BehaviorLeaf(string name = "BehaviorLeaf", Func<Status>? tick = null)
+            : base(name) => Tick = tick;
+        public override Status Process() => Tick?.Invoke() ?? Status.Failure;
     }
 }
