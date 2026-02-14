@@ -1,26 +1,42 @@
 ﻿
 namespace Zin.AIBehavior
 {
-    public class BehaviorSelector() : BehaviorNode("BehaviorSelector")
+    public class BehaviorSelector : BehaviorNode
     {
+        public BehaviorSelector() : base("BehaviorSelector") { }
+        public BehaviorSelector(string name) : base(name) { }
         public override Status Process()
         {
-            Status childStatus = Children[CurrentChildIndex].Process();
+            if (Children.Count == 0)
+                return Status.Failure;
 
-            if (childStatus is Status.Running)
+            if (CurrentChildIndex >= Children.Count)
+            {
+                CurrentChildIndex = 0;
+                return Status.Failure;
+            }
+
+            Status status = Children[CurrentChildIndex].Process();
+
+            if (status == Status.Running)
                 return Status.Running;
 
-            if (childStatus is Status.Success)
+            if (status == Status.Success)
             {
                 CurrentChildIndex = 0;
                 return Status.Success;
             }
 
-            return CurrentChildIndex++ >= Children.Count
-                ? (CurrentChildIndex = 0) == 0
-                    ? Status.Failure
-                        : Status.Failure
-                : Status.Running;
+            // Failure → try next child
+            CurrentChildIndex++;
+
+            if (CurrentChildIndex >= Children.Count)
+            {
+                CurrentChildIndex = 0;
+                return Status.Failure;
+            }
+
+            return Status.Running;
         }
     }
 }

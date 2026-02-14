@@ -9,5 +9,13 @@
 
         public virtual Status Process() => Status.Success;
         public void AddChild(BehaviorNode child) => Children.Add(child);
+
+        public virtual void Reset()
+        {
+            CurrentChildIndex = 0;
+
+            foreach (BehaviorNode child in Children)
+                child.Reset();
+        }
     }
 }
