@@ -10,5 +10,6 @@ namespace Zin.AIBehavior
         Success,
         Running,
         Failure,
+        Ended,
     }
 }

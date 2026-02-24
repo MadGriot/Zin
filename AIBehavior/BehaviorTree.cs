@@ -12,7 +12,12 @@
 
         public override Status Process()
         {
-            return Children[CurrentChildIndex].Process();
+            Status status = Children[CurrentChildIndex].Process();
+            if (status == Status.Ended || status == Status.Failure)
+            {
+                Reset(); // reset for next turn
+            }
+            return status;
         }
         public void PrintTree()
         {
@@ -35,5 +40,7 @@
             }
 
         }
+
+        public void ResetTree() => Reset();
     }
 }

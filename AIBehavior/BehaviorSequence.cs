@@ -26,6 +26,13 @@
                 return Status.Failure;
             }
 
+            if (status == Status.Ended)
+            {
+                Status = Status.Ended;
+                CurrentChildIndex = 0;
+                return Status; // stop processing remaining children
+            }
+
             // Success → move to next child
             CurrentChildIndex++;
 
