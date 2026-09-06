@@ -2,41 +2,38 @@
 
 namespace Zin.General.Algorithms
 {
-    public class DFS : ISearchAlgorithm
+    public class BFS : ISearchAlgorithm
     {
         public List<GeneralNode> Search(GeneralNode start, GeneralNode goal)
         {
-            Stack<GeneralNode> stack = new();
+            Queue<GeneralNode> queue = new();
 
-            stack.Push(start);
+            start.Visited = true;
+            queue.Enqueue(start);
 
-            while (stack.Count > 0)
+            while (queue.Count > 0)
             {
-                GeneralNode current = stack.Pop();
+                GeneralNode current = queue.Dequeue();
 
-                if (current.Visited)
-                    continue;
-
-                current.Visited = true;
-
-                Console.WriteLine($"DFS: {current.Name}");
+                Console.WriteLine($"BFS: {current.Name}");
 
                 if (current == goal)
                 {
                     return BuildPath(start, goal);
                 }
 
-                for (int i = current.Children.Count -1; i >= 0; i--)
+                foreach (GeneralNode child in current.Children)
                 {
-                    GeneralNode child = current.Children[i];
-
                     if (!child.Visited)
                     {
+                        child.Visited = true;
                         child.Parent = current;
-                        stack.Push(child);
+
+                        queue.Enqueue(child);
                     }
                 }
             }
+
             return new List<GeneralNode>();
         }
 
@@ -57,6 +54,7 @@ namespace Zin.General.Algorithms
             }
 
             path.Reverse();
+
             return path;
         }
     }
