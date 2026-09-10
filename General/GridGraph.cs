@@ -4,19 +4,19 @@ namespace Zin.General
 {
     public class GridGraph
     {
-        private readonly GeneralNode[,] nodes;
+        public GeneralNode[,] Nodes { get; private set; }
 
-        private readonly int width;
-        private readonly int length;
-        private readonly float size;
+        public int Width { get; private set; }
+        public int Length { get; private set; }
+        public float Size { get; private set; }
 
         public GridGraph(int width, int length, float size)
         {
-            this.width = width;
-            this.length = length;
-            this.size = size;
+            Width = width;
+            Length = length;
+            Size = size;
 
-            nodes = new GeneralNode[width, length];
+            Nodes = new GeneralNode[width, length];
 
             CreateNodes();
             ConnectNodes();
@@ -24,24 +24,24 @@ namespace Zin.General
 
         private void CreateNodes()
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for (int y = 0; y < length; y++)
+                for (int y = 0; y < Length; y++)
                 {
-                    Vector3 worldPosition = new Vector3(x * size, 0, y * size);
+                    Vector3 worldPosition = new Vector3(x * Size, 0, y * Size);
 
-                    nodes[x, y] = new GeneralNode($"Node_{x}_{y}", x, y, worldPosition);
+                    Nodes[x, y] = new GeneralNode($"Node_{x}_{y}", x, y, worldPosition);
                 }
             }
         }
 
         private void ConnectNodes()
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for (int y = 0; y < length; y++)
+                for (int y = 0; y < Length; y++)
                 {
-                    GeneralNode current = nodes[x, y];
+                    GeneralNode current = Nodes[x, y];
 
                     AddNeighbor(current, x + 1, y);
                     AddNeighbor(current, x - 1, y);
@@ -54,9 +54,9 @@ namespace Zin.General
 
         private void AddNeighbor(GeneralNode current, int x, int y)
         {
-            if (x < 0 || x >= width || y < 0 || y >= length) return;
+            if (x < 0 || x >= Width || y < 0 || y >= Length) return;
 
-            GeneralNode neighbor = nodes[x, y];
+            GeneralNode neighbor = Nodes[x, y];
 
             neighbor.Cost = 1;
 
@@ -65,11 +65,11 @@ namespace Zin.General
 
         public GeneralNode GetNode(int x, int y)
         {
-            return nodes[x, y];
+            return Nodes[x, y];
         }
         public void Reset()
         {
-            foreach (GeneralNode node in nodes)
+            foreach (GeneralNode node in Nodes)
             {
                 node.Reset();
             }
