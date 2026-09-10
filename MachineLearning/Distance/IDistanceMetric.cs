@@ -1,6 +1,6 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 
-namespace Zin.MachineLearning.Interfaces
+namespace Zin.MachineLearning.Distance
 {
     public interface IDistanceMetric
     {
