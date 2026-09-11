@@ -9,7 +9,9 @@ namespace Zin.MachineLearning.Distance
             int qCount = query.RowCount;
             int rCount = reference.RowCount;
 
-            return Matrix<double>.Build.Dense(qCount, rCount,
+            return Matrix<double>.Build.Dense(
+                query.RowCount,
+                reference.RowCount,
                 (i, j) =>
                     query.Row(i)
                         .Subtract(reference.Row(j))

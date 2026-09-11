@@ -43,10 +43,17 @@ namespace Zin.General
                 {
                     GeneralNode current = Nodes[x, y];
 
+                    // Cardinal
                     AddNeighbor(current, x + 1, y);
                     AddNeighbor(current, x - 1, y);
                     AddNeighbor(current, x, y + 1);
                     AddNeighbor(current, x, y - 1);
+
+                    // Diagonal
+                    AddNeighbor(current, x + 1, y + 1);
+                    AddNeighbor(current, x + 1, y - 1);
+                    AddNeighbor(current, x - 1, y + 1);
+                    AddNeighbor(current, x - 1, y - 1);
                     
                 }
             }
@@ -58,7 +65,7 @@ namespace Zin.General
 
             GeneralNode neighbor = Nodes[x, y];
 
-            neighbor.Cost = 1;
+            //neighbor.Cost = 1;
 
             current.AddChild(neighbor);
         }

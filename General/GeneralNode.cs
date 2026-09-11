@@ -12,11 +12,12 @@ namespace Zin.General
         //Position in the World
         public Vector3 WorldPosition { get; set; } = worldPosition;
         public int Cost { get; set; } = cost;
+        public bool IsWalkable { get; set; } = true;
         public List<GeneralNode> Children = new();
 
         // Search information
         public bool Visited { get; set; }
-        public int TotalCost {  get; set; }
+        public int TotalCost { get; set; } = int.MaxValue;
         public GeneralNode? Parent { get; set; }
 
         public void AddChild(GeneralNode node)

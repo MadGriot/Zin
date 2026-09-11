@@ -6,9 +6,11 @@ namespace Zin.General.Algorithms
     {
         public List<GeneralNode> Search(GeneralNode start, GeneralNode goal)
         {
+            if (!start.IsWalkable || !goal.IsWalkable)
+                return new List<GeneralNode>();
+
             List<GeneralNode> frontier = new();
 
-            start.TotalCost = 0;
 
             frontier.Add(start);
 
@@ -26,11 +28,11 @@ namespace Zin.General.Algorithms
                 int hCost = Heuristic(current, goal);
                 int fCost = current.TotalCost + hCost;
 
-                Console.WriteLine(
-                    "A*: " + current.Name +
-                    " | G: " + current.TotalCost +
-                    " | H: " + hCost +
-                    " | F: " + fCost);
+                //Console.WriteLine(
+                //    "A*: " + current.Name +
+                //    " | G: " + current.TotalCost +
+                //    " | H: " + hCost +
+                //    " | F: " + fCost);
 
                 if (current == goal)
                 {
@@ -39,7 +41,10 @@ namespace Zin.General.Algorithms
 
                 foreach (GeneralNode child in current.Children)
                 {
-                    int newGCost = current.TotalCost + child.Cost;
+                    if (!child.IsWalkable)
+                        continue;
+
+                    int newGCost = current.TotalCost + GetMovementCost(current, child);
 
                     if (newGCost < child.TotalCost)
                     {
@@ -51,6 +56,17 @@ namespace Zin.General.Algorithms
                 }
             }
             return new List<GeneralNode>();
+        }
+
+        private int GetMovementCost(GeneralNode current, GeneralNode child)
+        {
+            int diagonalX = Math.Abs(current.X - child.X);
+            int diagonalY = Math.Abs(current.Y - child.Y);
+
+            if (diagonalX == 1 && diagonalY == 1)
+                return 14;
+
+            return 10;
         }
 
         private GeneralNode GetLowestFCostNode(List<GeneralNode> frontier, GeneralNode goal)
@@ -72,7 +88,13 @@ namespace Zin.General.Algorithms
         }
         private int Heuristic(GeneralNode current, GeneralNode goal)
         {
-            return Math.Abs(current.X - goal.X) + Math.Abs(current.Y - goal.Y);
+            int diagonalX = Math.Abs(current.X - goal.X);
+            int diagonalY = Math.Abs(current.Y - goal.Y);
+
+            int diagonal = Math.Min(diagonalX, diagonalY);
+            int straight = Math.Max(diagonalX, diagonalY) - diagonal;
+
+            return diagonal * 14 + straight * 10;
         }
 
         private List<GeneralNode> BuildPath(GeneralNode start, GeneralNode goal)
