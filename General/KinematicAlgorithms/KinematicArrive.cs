@@ -39,9 +39,9 @@ namespace Zin.General.KinematicAlgorithms
         }
 
         //Quaternions go here??
-        public float NewOrientation(float orientation, Vector3 velocity)
+        public Quaternion NewOrientation(Quaternion orientation, Vector3 velocity)
         {
-            return 0f;
+            return orientation;
         }
     }
 }
